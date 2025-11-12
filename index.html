@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pesquisa Teens ⭐</title>
+
+<style>
+  :root{
+    --bg:#f5f7fa;
+    --card:#ffffff;
+    --ink:#111827;
+    --muted:#6b7280;
+    --accent:#6366f1;
+    --accent-soft:#eef2ff;
+    --line:#e5e7eb;
+    --chip-bg:#f3f4f6;
+    --chip-on:#e0e7ff;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background:var(--bg); color:var(--ink);
+  }
+  .wrap{max-width:900px;margin:22px auto;padding:16px}
+  .card{
+    background:var(--card);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.05);
+  }
+  h1{margin:0 0 10px;font-weight:800}
+  .lead{color:var(--muted);margin-bottom:16px}
+
+  .section{
+    padding:16px;border-radius:14px;margin:20px 0;border:1px solid var(--line);
+  }
+  .teacher{background:#eef2ffcc;border-color:#c7d2fe}
+  .student{background:#dcfce7cc;border-color:#bbf7d0}
+
+  .section-title{
+    margin:0 0 10px;
+    display:flex;gap:8px;align-items:center;font-weight:800
+  }
+
+  .row{display:grid;gap:12px}
+  @media(min-width:760px){ .row.two{grid-template-columns:1fr 1fr;} }
+
+  label{font-weight:600;margin-bottom:6px;display:block}
+
+  input, textarea{
+    width:100%;border:1px solid var(--line);border-radius:10px;
+    padding:10px;font-size:1rem;background:white;
+  }
+  textarea{min-height:80px;resize:vertical}
+
+  /* ----------- Escala 0–10 horizontal ----------- */
+  .scale-wrap{
+    display:flex;
+    gap:6px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:8px 0 12px;
+  }
+  .scale-number{
+    width:34px;height:34px;
+    border-radius:10px;
+    background:var(--chip-bg);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:600;
+    color:var(--muted);
+    cursor:pointer;
+    transition:.15s;
+    user-select:none;
+  }
+  .scale-number.active{
+    background:var(--accent);
+    color:white;
+    transform:scale(1.1);
+  }
+
+  /* ---------- Chips/Thumbs ---------- */
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .chip{
+    padding:10px 14px;
+    background:var(--chip-bg);
+    border:1px solid var(--line);
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:600;
+    user-select:none;
+    display:flex;gap:6px;align-items:center;
+  }
+  .chip.active{background:var(--chip-on);border-color:var(--accent)}
+
+  button{
+    background:var(--accent);color:white;font-weight:700;
+    padding:12px 16px;border:none;border-radius:10px;cursor:pointer;
+  }
+  .actions{margin-top:20px;display:flex;gap:12px;align-items:center}
+
+  #ok{
+    display:none;
+    color:#059669;
+    font-weight:700;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <h1>Pesquisa Teens ⭐</h1>
+    <p class="lead">Avaliação rápida e sincera para melhorar o curso!</p>
+
+    <!-- IDENTIFICAÇÃO -->
+    <div class="row two">
+      <div>
+        <label>Seu nome</label>
+        <input id="nome" required placeholder="Ex.: Lucas Andrade" />
+      </div>
+      <div>
+        <label>Idade</label>
+        <input id="idade" type="number" min="10" max="16" required placeholder="Ex.: 13" />
+      </div>
+    </div>
+
+    <!-- PROFESSOR -->
+    <div class="section teacher">
+      <h3 class="section-title">👩‍🏫 Sobre o Professor(a)</h3>
+
+      <label>Explica bem?</label>
+      <div class="scale-wrap" data-field="prof_explica"></div>
+
+      <label>Simpático(a)?</label>
+      <div class="scale-wrap" data-field="prof_simpatia"></div>
+
+      <label>Pontual?</label>
+      <div class="scale-wrap" data-field="prof_pontualidade"></div>
+
+      <label>Conhecimento do assunto?</label>
+      <div class="scale-wrap" data-field="prof_conhecimento"></div>
+
+      <label style="margin-top:12px;">Sugestões ou opinião sobre o professor (opcional)</label>
+      <textarea id="prof_opiniao" placeholder="Escreva se quiser..."></textarea>
+    </div>
+
+    <!-- ALUNO -->
+    <div class="section student">
+      <h3 class="section-title">🧑 Sobre Mim (Aluno)</h3>
+
+      <div class="row two">
+        <div>
+          <label>O que você MAIS gostou no curso?</label>
+          <textarea id="gostou"></textarea>
+        </div>
+        <div>
+          <label>Algo que você NÃO curtiu?</label>
+          <textarea id="nao_gostou"></textarea>
+        </div>
+      </div>
+
+      <label>As aulas foram...</label>
+      <div class="chips" data-field="dificuldade">
+        <div class="chip">😄 Muito fáceis</div>
+        <div class="chip">🙂 Fáceis</div>
+        <div class="chip">😌 Normais</div>
+        <div class="chip">😅 Difíceis</div>
+        <div class="chip">😵 Muito difíceis</div>
+      </div>
+
+      <div class="row two" style="margin-top:10px;">
+        <div>
+          <label>Eu participo das atividades</label>
+          <div class="chips" data-field="eu_participo">
+            <div class="chip">👍 Sim</div>
+            <div class="chip">👎 Não</div>
+          </div>
+        </div>
+        <div>
+          <label>Eu me organizo bem</label>
+          <div class="chips" data-field="eu_organizado">
+            <div class="chip">👍 Sim</div>
+            <div class="chip">👎 Não</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row two">
+        <div>
+          <label>Eu me esforço para aprender</label>
+          <div class="chips" data-field="eu_esforco">
+            <div class="chip">👍 Sim</div>
+            <div class="chip">👎 Não</div>
+          </div>
+        </div>
+        <div>
+          <label>O que eu posso melhorar?</label>
+          <input id="auto_melhorar" placeholder="Ex.: foco, atenção, paciência..." />
+        </div>
+      </div>
+
+      <label style="margin-top:12px;">Nota geral que dou para mim (0–10)</label>
+      <div class="scale-wrap" data-field="nota_eu"></div>
+
+      <label style="margin-top:12px;">Você recomendaria esse curso?</label>
+      <div class="chips" data-field="recomendacao">
+        <div class="chip">👍 Sim</div>
+        <div class="chip">👎 Não</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="enviar">Enviar respostas</button>
+      <span id="ok">✅ Enviado!</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ========== ESCALA 0–10 ========== */
+  function buildScale(container){
+    for(let i=0;i<=10;i++){
+      const n=document.createElement("div");
+      n.className="scale-number";
+      n.textContent=i;
+      n.addEventListener("click",()=>{
+        container.querySelectorAll(".scale-number")
+          .forEach(x=>x.classList.remove("active"));
+        n.classList.add("active");
+        container.dataset.value=i;
+      });
+      container.appendChild(n);
+    }
+  }
+  document.querySelectorAll(".scale-wrap").forEach(buildScale);
+
+  /* ========== CHIPS / THUMBS ========== */
+  document.querySelectorAll(".chips").forEach(group=>{
+    group.addEventListener("click",e=>{
+      const chip=e.target.closest(".chip");
+      if(!chip) return;
+      group.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+      chip.classList.add("active");
+      group.dataset.value=chip.textContent.trim();
+    });
+  });
+
+  /* ========== ENVIO PARA O APP SCRIPT ========== */
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbwWPNSg1qdrUYpiHWjvrHo7KLokPiuWkw63SD6yy_qxy0eXqGy0jn6pAiNE3DrR6bjF/exec";  /* <-- COLE A SUA URL /exec */
+
+  document.getElementById("enviar").addEventListener("click", async()=>{
+    const nome=document.getElementById("nome").value.trim();
+    const idade=document.getElementById("idade").value.trim();
+    if(!nome||!idade){
+      alert("Preencha nome e idade 🙂");
+      return;
+    }
+
+    const data={
+      nome, idade,
+
+      // Professor
+      prof_explica:document.querySelector("[data-field='prof_explica']")?.dataset.value || "",
+      prof_simpatia:document.querySelector("[data-field='prof_simpatia']")?.dataset.value || "",
+      prof_pontualidade:document.querySelector("[data-field='prof_pontualidade']")?.dataset.value || "",
+      prof_conhecimento:document.querySelector("[data-field='prof_conhecimento']")?.dataset.value || "",
+      prof_opiniao:document.getElementById("prof_opiniao").value.trim(),
+
+      // Aluno
+      gostou:document.getElementById("gostou").value.trim(),
+      nao_gostou:document.getElementById("nao_gostou").value.trim(),
+      dificuldade:document.querySelector("[data-field='dificuldade']")?.dataset.value || "",
+      eu_participo:document.querySelector("[data-field='eu_participo']")?.dataset.value || "",
+      eu_organizado:document.querySelector("[data-field='eu_organizado']")?.dataset.value || "",
+      eu_esforco:document.querySelector("[data-field='eu_esforco']")?.dataset.value || "",
+      auto_melhorar:document.getElementById("auto_melhorar").value.trim(),
+      nota_eu:document.querySelector("[data-field='nota_eu']")?.dataset.value || "",
+      recomendacao:document.querySelector("[data-field='recomendacao']")?.dataset.value || "",
+
+      timestamp:new Date().toISOString()
+    };
+
+    try{
+      await fetch(ENDPOINT,{
+        method:"POST",
+        mode:"no-cors",
+        body:JSON.stringify(data)
+      });
+      document.getElementById("ok").style.display="inline-block";
+    }catch(err){
+      alert("Erro ao enviar. Tente novamente.");
+      console.error(err);
+    }
+  });
+</script>
+
+</body>
+</html>
