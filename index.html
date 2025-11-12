@@ -205,11 +205,15 @@
       <label style="margin-top:12px;">Nota geral que dou para mim (0–10)</label>
       <div class="scale-wrap" data-field="nota_eu"></div>
 
-      <label style="margin-top:12px;">Você recomendaria esse curso?</label>
+            <label style="margin-top:12px;">Você recomendaria esse curso?</label>
       <div class="chips" data-field="recomendacao">
         <div class="chip">👍 Sim</div>
         <div class="chip">👎 Não</div>
       </div>
+
+      <!-- NOVO BLOCO -->
+      <label style="margin-top:18px;">Sugestões para a escola / aulas / cursos (opcional)</label>
+      <textarea id="sugestoes_escola" placeholder="Quer sugerir alguma melhoria? Conte para nós..."></textarea>
     </div>
 
     <div class="actions">
@@ -253,49 +257,59 @@
   const ENDPOINT = "https://script.google.com/macros/s/AKfycbxoRGWzBUDOipvd1ERhvnP6W34mL5_LRXnrW2s_Y-_ZaUDLKwaDeTN6FJkYmAuqajdj/exec";  /* <-- COLE A SUA URL /exec */
 
   document.getElementById("enviar").addEventListener("click", async()=>{
-    const nome=document.getElementById("nome").value.trim();
-    const idade=document.getElementById("idade").value.trim();
-    if(!nome||!idade){
-      alert("Preencha nome e idade 🙂");
-      return;
-    }
+  const nome = document.getElementById("nome").value.trim();
+  const idade = document.getElementById("idade").value.trim();
 
-    const data={
-      nome, idade,
+  if(!nome || !idade){
+    alert("Preencha nome e idade 🙂");
+    return;
+  }
 
-      // Professor
-      prof_explica:document.querySelector("[data-field='prof_explica']")?.dataset.value || "",
-      prof_simpatia:document.querySelector("[data-field='prof_simpatia']")?.dataset.value || "",
-      prof_pontualidade:document.querySelector("[data-field='prof_pontualidade']")?.dataset.value || "",
-      prof_conhecimento:document.querySelector("[data-field='prof_conhecimento']")?.dataset.value || "",
-      prof_opiniao:document.getElementById("prof_opiniao").value.trim(),
+  const data = {
+    nome,
+    idade,
 
-      // Aluno
-      gostou:document.getElementById("gostou").value.trim(),
-      nao_gostou:document.getElementById("nao_gostou").value.trim(),
-      dificuldade:document.querySelector("[data-field='dificuldade']")?.dataset.value || "",
-      eu_participo:document.querySelector("[data-field='eu_participo']")?.dataset.value || "",
-      eu_organizado:document.querySelector("[data-field='eu_organizado']")?.dataset.value || "",
-      eu_esforco:document.querySelector("[data-field='eu_esforco']")?.dataset.value || "",
-      auto_melhorar:document.getElementById("auto_melhorar").value.trim(),
-      nota_eu:document.querySelector("[data-field='nota_eu']")?.dataset.value || "",
-      recomendacao:document.querySelector("[data-field='recomendacao']")?.dataset.value || "",
+    // Professor
+    prof_explica: document.querySelector("[data-field='prof_explica']")?.dataset.value || "",
+    prof_simpatia: document.querySelector("[data-field='prof_simpatia']")?.dataset.value || "",
+    prof_pontualidade: document.querySelector("[data-field='prof_pontualidade']")?.dataset.value || "",
+    prof_conhecimento: document.querySelector("[data-field='prof_conhecimento']")?.dataset.value || "",
+    prof_opiniao: document.getElementById("prof_opiniao").value.trim(),
 
-      timestamp:new Date().toISOString()
-    };
+    // Aluno
+    gostou: document.getElementById("gostou").value.trim(),
+    nao_gostou: document.getElementById("nao_gostou").value.trim(),
+    dificuldade: document.querySelector("[data-field='dificuldade']")?.dataset.value || "",
+    eu_participo: document.querySelector("[data-field='eu_participo']")?.dataset.value || "",
+    eu_organizado: document.querySelector("[data-field='eu_organizado']")?.dataset.value || "",
+    eu_esforco: document.querySelector("[data-field='eu_esforco']")?.dataset.value || "",
+    auto_melhorar: document.getElementById("auto_melhorar").value.trim(),
+    nota_eu: document.querySelector("[data-field='nota_eu']")?.dataset.value || "",
+    recomendacao: document.querySelector("[data-field='recomendacao']")?.dataset.value || "",
 
-    try{
-      await fetch(ENDPOINT,{
-        method:"POST",
-        mode:"no-cors",
-        body:JSON.stringify(data)
-      });
-      document.getElementById("ok").style.display="inline-block";
-    }catch(err){
-      alert("Erro ao enviar. Tente novamente.");
-      console.error(err);
-    }
-  });
+    // NOVO
+    sugestoes_escola: document.getElementById("sugestoes_escola").value.trim(),
+
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    await fetch(ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(data)
+    });
+
+    document.getElementById("ok").style.display="inline-block";
+
+    // NOVO ALERTA
+    alert("Respostas enviadas! Muito obrigado 🙌");
+
+  } catch(err){
+    alert("Erro ao enviar. Tente novamente.");
+    console.error(err);
+  }
+});
 </script>
 
 </body>
